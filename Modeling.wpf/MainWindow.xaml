@@ -5,8 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Modeling.wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Modeling Project 1.4" Height="625" Width="830">
+    <Grid x:Name="grid1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="2"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="2"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="2"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="2"></RowDefinition>
+            <RowDefinition Height="6*"></RowDefinition>
+            <RowDefinition Height="2"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="9" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="6" Grid.RowSpan="9" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="5" Grid.Column="2" Grid.RowSpan="3" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="5" Background="Gray"></StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" x:Name="Command"></StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" x:Name="Title1">
+            <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Verdana">Курсовой проект по  математическому моделированию</Label>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label FontSize="12" FontFamily="Verdana">тема:</Label>
+                <Label FontSize="12" FontFamily="Verdana">Алгоритм и программная реализация одномерной линейной интерполяции сеточной функции кубическими сплайнами.</Label>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="1" Grid.RowSpan="4" x:Name="Navigation"></StackPanel>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2">
+            <Canvas Background="LightGray" x:Name="Graphical" Width="Auto"/>
+        </ScrollViewer>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" x:Name="Footer"></StackPanel>
+
     </Grid>
 </Window>
