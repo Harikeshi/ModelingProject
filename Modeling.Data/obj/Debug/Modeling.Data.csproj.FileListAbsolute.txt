@@ -1,0 +1,7 @@
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\bin\Debug\Modeling.Data.exe.config
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\bin\Debug\Modeling.Data.exe
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\bin\Debug\Modeling.Data.pdb
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.csprojAssemblyReference.cache
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.csproj.CoreCompileInputs.cache
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.exe
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.pdb
