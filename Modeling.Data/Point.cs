@@ -13,6 +13,11 @@ namespace Modeling.Data
             X = x;
             Y = Fx(x);
         }
+        public Point(double x,double y)
+        {
+            X = x;
+            Y = y;
+        }
 
         public double Fx(double x)
         {

@@ -13,3 +13,14 @@ C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\obj\Debug\Modeling.
 C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\obj\Debug\Modeling.wpf.csproj.CoreCompileInputs.cache
 C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\obj\Debug\Modeling.wpf.exe
 C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\obj\Debug\Modeling.wpf.pdb
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\LiveCharts.dll
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\LiveCharts.Geared.dll
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\LiveCharts.Wpf.dll
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\Modeling.Data.exe
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\Modeling.Data.pdb
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\Modeling.Data.exe.config
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\LiveCharts.pdb
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\LiveCharts.xml
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\LiveCharts.Wpf.pdb
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\bin\Debug\LiveCharts.Wpf.xml
+C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.wpf\obj\Debug\Modeling.wpf.csproj.CopyComplete

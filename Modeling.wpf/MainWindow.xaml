@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Modeling.wpf"
+        xmlns:Wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:local="clr-namespace:Modeling.wpf" Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="Modeling Project 1.4" Height="625" Width="830">
+        Title="Modeling Project 1.4" Height="535" Width="922">
     <Grid x:Name="grid1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2"></ColumnDefinition>
@@ -45,13 +46,57 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="1" Grid.RowSpan="4" x:Name="Navigation"></StackPanel>
+        <StackPanel x:Name="Navigation" Orientation="Vertical" Grid.Row="5" Grid.Column="1" Grid.RowSpan="4">
+            
+            <DataGrid x:Name="TableFunc" AutoGenerateColumns="False" HorizontalGridLinesBrush="DarkGray" 
+                      RowBackground="LightGray" AlternatingRowBackground="White" Margin="5">
+                
 
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2">
-            <Canvas Background="LightGray" x:Name="Graphical" Width="Auto"/>
-        </ScrollViewer>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Значение X" Width="80" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox  Text="{Binding Path=ValueX}" ></TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Значение Y" Width="100" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox  Text="{Binding Path=ValueY}" ></TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="CalculateTable" HorizontalAlignment="Left" Width="Auto" Margin="5 0 0 0" Click="CalculateTable_Click">Рассчитать</Button>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" x:Name="Footer"></StackPanel>
+        </StackPanel>
 
+        <StackPanel Background="Gray" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2">
+            <Wpf:CartesianChart>
+                <Label>https://lvcharts.net/App/examples/v1/wf/Basic%20Line%20Chart</Label>
+            </Wpf:CartesianChart>
+        </StackPanel>
+        
+
+        <StackPanel Orientation="Vertical" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" x:Name="Footer">
+            <StackPanel Orientation="Horizontal">
+                <Label>Рассчитать значение при x=</Label>
+                <TextBox x:Name="valueX" Text="0" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <Button x:Name="CalculateY" Width="70" Margin="5" Content="Рассчитать" Click="CalculateY_Click"></Button>
+                <Label>Значение функции:</Label>
+                <Label x:Name="valueY" Width="Auto" HorizontalAlignment="Left" FontWeight="Bold">NULL</Label>
+            </StackPanel >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 100 0">
+                <Label >Значение функции для sin(x):</Label>
+                <Label x:Name="SinX" FontWeight="Bold">NULL</Label>
+            </StackPanel>
+            <StackPanel>
+                <Label>*- используйте разделительный знак ",".</Label>
+            </StackPanel>
+        </StackPanel>
+
+        
     </Grid>
 </Window>

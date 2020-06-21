@@ -12,7 +12,7 @@ namespace Modeling.Data
         private readonly Point _p2;
 
         #region Accessors
-        public double GetX()
+        public double GetX1()
         {
             return _p1.X;
         }
@@ -33,6 +33,7 @@ namespace Modeling.Data
         {
             return _p1;
         }
+        public Point GetLast() { return _p2; }
 
         #endregion
 
@@ -46,36 +47,6 @@ namespace Modeling.Data
             D = p1.Y;
             A = (_p2.Y - B * Math.Pow(_p2.X - _p1.X, 2) - C * (_p2.X - _p1.X) - D) / Math.Pow(_p2.X - _p1.X, 3);
         }
-
-        //Создание матрицы на каждом шаге
-        //x^3 ,  x^2,  x,  1, f(x)
-        //3*x^2, 2*x,  1,  0, df(x)
-        //6*x,   2,    0,  0, ddf(x)
-        //xn^3,  xn^2, xn, 1, f(xn)
-
-        //public double[] array = new double[4];
-
-        //public void GetABCD(double df, double ddf)
-        //{
-        //    double[,] matrix = new double[4, 4]
-        //    {
-        //        {Math.Pow(_p1.X,3), Math.Pow(_p1.X,2), _p1.X, 1 },
-        //        {3*Math.Pow(_p1.X,2), 2*_p1.X, 1, 0 },
-        //        {6*_p1.X, 2, 0, 0 },
-        //        {Math.Pow(_p2.X,3), Math.Pow(_p2.X,2), _p2.X, 1}
-        //    };
-
-        //    double[] b = new double[4]
-        //    {
-        //        _p1.Y, df, ddf,_p2.Y
-        //    };
-
-        //    this.array = Mathematical.GaussMTB(array, matrix, b, 4);
-        //    A = array[0];
-        //    B = array[1];
-        //    C = array[2];
-        //    D = array[3];
-        //}
 
         public double F(double x)
         {

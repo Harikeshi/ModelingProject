@@ -22,7 +22,7 @@ namespace Modeling.Data
 
             GridFunction func = new GridFunction();
 
-            Spline spline = new Spline(func);
+            Spline spline = new Spline(func.Data);
 
             spline.GenerateSplines();
 
@@ -30,7 +30,7 @@ namespace Modeling.Data
 
             double x = 12;
             Console.WriteLine($"Синус({x}) = {Math.Sin(x)}");
-            Console.WriteLine($"Инерполяция: {spline.GetFunctionValue(x, 10)}");
+            Console.WriteLine($"Инерполяция: {spline.GetFunctionValue(x)}");
             Console.WriteLine(new string('-', 20));
 
         }

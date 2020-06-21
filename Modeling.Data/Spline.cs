@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Modeling.Data
 {
@@ -30,10 +31,10 @@ namespace Modeling.Data
         }
         #endregion
         #region Конструктор
-        public Spline(GridFunction gridFunction)
+        public Spline(Point[] points)//подаем массив
         {
-            _points = gridFunction.Data;
-            _splines = new SplineSubInterval[gridFunction.Data.Length - 1];
+            _points = points;
+            _splines = new SplineSubInterval[points.Length - 1];
         }
         #endregion
         private double BuildSplines(double ddf1)
@@ -54,7 +55,6 @@ namespace Modeling.Data
             }
             return df - Dfn;//Dfn-последнего узла.
         }
-
         public void GenerateSplines()
         {
             const double x1 = 0;
@@ -69,58 +69,140 @@ namespace Modeling.Data
 
             _points[_points.Length - 1].ddf = _splines[_splines.Length - 1].Ddf(_points[_points.Length - 1].X);
         }
-
-        public double? GetFunctionValue(double x, int n)//n- количество интервалов
+        public List<Point> GetValuesForDrow()
         {
-            if (_splines[0].GetX() > x || _splines[_points.Length - 2].GetX2() < x)
+            //Разбить интервал на более мелкие
+            //и рассчитать точки в этих интервалах
+            //Вернуть массив этих точек.
+            
+            //Пройти циклом по всем интервалам и составить массив
+            int length = _splines.Length;
+            int n = 0;
+            double step;
+            int temp = 0;
+            double x1 = _splines[0].GetX1();
+
+            List<Point> array = new List<Point>();
+            
+            SplineSubInterval interval = null;
+
+            for(int i = 0; i < length; i++)
             {
-                return null;
+                interval = _splines[i];
+                n = GetIntervalNum(interval);
+                step = GetIntervalStep(interval, n);
+
+                for(int j = 0; j < n - 1; j++)
+                {
+                    x1 += step;
+                    ;
+                    array.Add(new Point(x1, GetFunctionValue(x1)));
+                    temp++;
+                }
+              
+                array.Add(interval.GetLast());
+
+
+                temp++;
+                
             }
+
+
+            return array;
+        }
+        public double GetIntervalStep(SplineSubInterval interval,int n)
+        {
+            return (interval.GetX2() - interval.GetX1()) / n;
+        }
+        public double GetFunctionValue(double x)//n- количество интервалов
+        {
+            SplineSubInterval interval = GetInterval(x);
+
+            if (interval.GetX1() == x)
+            {
+                return interval.GetPoint().Y;
+            }
+            if (interval.GetX2() == x)
+            {
+                return interval.GetLast().Y;
+            }
+
+            bool check = false;//проверяет найдено ли значения во время работы цикла
+            double result = 0;
+            //Находим количество интервалов
+            int n = GetIntervalNum(interval);
+
+            //Находим шаг
+            double step = GetIntervalStep(interval,n);
+
+            //Ходить будем n-1 раз, а последний интервал берем, что осталось
+            SplineSubInterval CurrentInterval = null;
+
+            Point p1 = interval.GetPoint();
+
+            for (int i = 0; i < n - 1; i++)
+            {
+                double tempX = p1.X + step;
+                Point p2 = new Point(tempX, interval.F(tempX));
+
+                CurrentInterval = new SplineSubInterval(p1, p2, p1.df, p1.ddf);
+
+                if (CurrentInterval.GetX1() < x && CurrentInterval.GetX2() > x)//если X попадает в интервал выходим и вычисляем значение функции 
+                {
+                    check = true;
+                    result = CurrentInterval.F(x);
+                    break;
+                }
+                if (CurrentInterval.GetX1() == x)
+                {
+                    return CurrentInterval.GetPoint().Y;
+                }
+                p1 = p2;
+            }
+
+            //Если не нашли в цикле, то значит значение находится в последнем интервале
+            if (!check)
+            {
+                CurrentInterval = new SplineSubInterval(p1, interval.GetLast(), p1.df, p1.ddf);
+            }
+            return result;
+        }
+        //Находим количество интервалов
+        private static int GetIntervalNum(SplineSubInterval interval)
+        {
+            int n = Convert.ToInt32(Math.Round((interval.GetX2() - interval.GetX1()) / 2, 0));
+            //Если получилось мало шагов
+            if (Math.Abs(n) < 10)
+            {
+                n = 10;
+            }
+
+            return n;
+        }
+        //Находим нужный интервал
+        public SplineSubInterval GetInterval(double x)
+        {
+            SplineSubInterval interval = null;
 
             for (int i = 0; i < _splines.Length; i++)
             {
-                if (_splines[i].GetX() > x)
+
+                if (_splines[i].GetX1() < x && _splines[i].GetX2() > x)
                 {
-                    return GetInterval(_splines[i - 1].GetX(), x, n, i - 1);
+                    interval = _splines[i];
                 }
-                else if (_splines[i].GetX() == x)
+                if (_splines[i].GetX1() == x)
                 {
-                    return _splines[i].F(x);
+                    interval = _splines[i];
                 }
+                if (_splines[i].GetX2() == x)
+                {
+                    interval = _splines[i];
+                }
+
             }
-            if (x < _splines[_points.Length - 2].GetX2())
-            {
-                return GetInterval(_splines[_points.Length - 2].GetX(), x, n, _points.Length - 2);
-            }
-            return null;
+            return interval;
         }
-        public double GetInterval(double x0, double x, int n, int IntervalIndex)
-        {
-            SplineSubInterval interval = null;
-            double number = GetIntervalStep(_splines[IntervalIndex].GetX(), x, n);
-            Point point = _splines[IntervalIndex].GetPoint();
-
-            double temp = point.X;
-            for (int j = 0; j < n; j++)
-            {
-
-                //Рассчитываем значения на каждом интервале
-                temp += number;
-
-                Point p = new Point(temp);
-                interval = new SplineSubInterval(point, p, point.df, point.ddf);
-
-                point = p;
-                //То что получилось на последнем шаге
-            }
-            return interval.F(point.X);
-        }
-
-        public double GetIntervalStep(double x0, double x1, int n)//n количество интервалов
-        {
-            return Math.Abs(x1 - x0) / n;
-        }
-
     }
 }
 
