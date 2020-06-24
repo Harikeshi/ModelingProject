@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.UI.DataVisualization.Charting;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,30 +12,35 @@ using Modeling.Data;
 
 namespace Modeling.wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
+
 
     public partial class MainWindow : Window
     {
         //Данные
         public Modeling.Data.Point[] Points;//массив, который хранит точки табличной функции
-        public double[] Begin_array = { -1, 1, 3, 5, 10, 15 };
-       
+        public double[] Begin_array = { -1,-0.5,0,0.5, 1,1.5,2,2.5, 3,3.5,4,4.5, 5,5.5,6,6.5,7,7.5,8,8.5,9, 10, 15 };
+
         public MainWindow()
         {
             InitializeComponent();
 
 
-            Modeling.Data.Point[] Points = new Data.Point[Begin_array.Length];
+
+            Modeling.Data.Point[] Points = new Data.Point[100];
+            double temp = -1;
+
             for (int i = 0; i < Points.Length; i++)
             {
-                Points[i] = new Data.Point(Begin_array[i]);
+                Points[i] = new Data.Point(temp);
+                temp += 0.2;
             }
 
-            test1.Content = MaxArray(Points, 'x').ToString() + " " + MinArray(Points, 'x');
-            test2.Content = MaxArray(Points, 'y').ToString() + " " + MinArray(Points, 'y');
+            //Modeling.Data.Point[] Points = new Data.Point[Begin_array.Length];
+            //for (int i = 0; i < Points.Length; i++)
+            //{
+            //    Points[i] = new Data.Point(Begin_array[i]);
+            //}
+
             //1. заполнить таблицу
 
             //будет заполняться по функции синус 
@@ -73,7 +79,7 @@ namespace Modeling.wpf
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-           
+
             for (int i = 0; i < Begin_array.Length; i++)
             {
                 TableFunc.Items.Add(new TablePoint { ValueX = Begin_array[i], ValueY = Math.Round(Math.Sin(Begin_array[i]), 5) });
@@ -89,18 +95,15 @@ namespace Modeling.wpf
             List<Modeling.Data.Point> points = spline.GetValuesForDrow();
 
             valueY.Content = spline.GetFunctionValue(x).ToString();
-            
+
             CreateGraphic(Points);
         }
         private void CreateGraphic(Data.Point[] points)
         {
             //Отступы от осей 20          
-            
-        
+
+
         }
-
-
-
 
         private double MaxArray(Data.Point[] points, char ch)
         {
@@ -201,15 +204,15 @@ namespace Modeling.wpf
             double ActualH = 719.55;
             double ActualW = 1435.5;
             //Длина в пикселях
-            double lengthYCanvas = ActualH - Left1-Left2-Right;
-            double lengthXCanvas = ActualW - Bottom1-Bottom2-Top;
+            double lengthYCanvas = ActualH - Left1 - Left2 - Right;
+            double lengthXCanvas = ActualW - Bottom1 - Bottom2 - Top;
 
             //делим длину в пикселях на нашу длину и это будет множитель
             double mulY = lengthYCanvas / lengthY;
             double mulX = lengthXCanvas / lengthX;
 
             #region Отрисовка сетки
-            //Осевые линии
+            #region Осевые линии
             Line VerticalLine = new Line();
             VerticalLine.X1 = Left1;
             VerticalLine.X2 = Left1;
@@ -227,14 +230,62 @@ namespace Modeling.wpf
             HorisontalLine.Stroke = Brushes.Black;
             HorisontalLine.StrokeThickness = 2;
             Canvas1.Children.Add(HorisontalLine);
+            #endregion
+            //lengthYCanvas  lengthXCanvas
+            //рисуем вертикальную сетку
+            //Делим стороны Canvas на n частей
+            int n = 10;//количество частей
+            double StepHeight = lengthYCanvas / n;
+            double StepWidth = lengthXCanvas / n;
+
+            //Построение вертикальной сетки
+            double temp = Left1;
+            double indent = Left1 - 20;//Отступ от левого края
+
+            double minimumX = minX - Left2 / mulX;
+            Label l0 = new Label { Content = Math.Round(minimumX, 2).ToString() };
+            Canvas.SetLeft(l0, indent);
+            Canvas.SetTop(l0, ActualH - Bottom1);
+            Canvas1.Children.Add(l0);
+
+            for (int i = 0; i < n; i++)
+            {
+                temp += StepWidth;
+                minimumX += (StepWidth / mulX);
+                indent += StepWidth;
+
+                Label l = new Label { Content = Math.Round(minimumX, 2).ToString() };
+                Canvas.SetLeft(l, indent);
+                Canvas.SetTop(l, ActualH - Bottom1);//Отступ снизу постоянный
+                Canvas1.Children.Add(l);
+
+                Canvas1.Children.Add(new Line { X1 = temp, X2 = temp, Y1 = 0, Y2 = ActualH - Bottom1, Stroke = Brushes.Gray });
+            }
+            //Построение горизонтальной сетки
+            temp = ActualH - Bottom1;
+            double minimumY = minY - Bottom2 / mulY;
+            indent = ActualH - Bottom1 - 20;//Отступ от верхнего края
+            Label l1 = new Label { Content = Math.Round(minimumY, 2).ToString() };
+            Canvas.SetLeft(l1, 10);//Постоянное значение
+            Canvas.SetTop(l1, indent);
+            Canvas1.Children.Add(l1);
+
+            for (int j = 0; j < n; j++)
+            {
+                temp -= StepHeight;
+                minimumY += (StepHeight / mulY);
+                indent -= StepHeight;
+                Label l = new Label { Content = Math.Round(minimumY, 2).ToString() };
+                Canvas.SetLeft(l, 10);//
+                Canvas.SetTop(l, indent);
+                Canvas1.Children.Add(l);
+
+                Canvas1.Children.Add(new Line { X1 = Left1, X2 = ActualW, Y1 = temp, Y2 = temp, Stroke = Brushes.Gray });
 
 
-
-
-
+            }
 
             #endregion
-
 
             List<Data.Point> ps = new List<Data.Point>();
             //Берем за точку отсчета максимальное значение это 30 и к нему будем прибавлять разницу между этим значением и текущим умноженное на множитель
@@ -261,14 +312,14 @@ namespace Modeling.wpf
                 {
                     exchangeX = Math.Abs(points[i].X + Math.Abs(minX));
                 }
-                //Отступ 20 + 10(на самом графике)
-                ps.Add(new Data.Point(exchangeX * mulX + Left1+Left2, exchangeY * mulY + Top));
+                //Отступ 60 + 20(на самом графике)
+                ps.Add(new Data.Point(exchangeX * mulX + Left1 + Left2, exchangeY * mulY + Top));
                 Ellipse el = new Ellipse();
                 el.Height = 5;
                 el.Width = 5;
                 el.Stroke = Brushes.Red;
                 el.StrokeThickness = 5;
-                Canvas.SetLeft(el, exchangeX * mulX + Left1+Left2);
+                Canvas.SetLeft(el, exchangeX * mulX + Left1 + Left2);
                 Canvas.SetTop(el, exchangeY * mulY + Top);
                 Canvas1.Children.Add(el);
             }
