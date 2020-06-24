@@ -6,7 +6,8 @@
         xmlns:Wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:Modeling.wpf" Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="Modeling Project 1.4" Height="535" Width="922">
+        Title="Modeling Project 1.4" MinHeight="1080" MinWidth="1920"
+        WindowState="Maximized">
     <Grid x:Name="grid1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2"></ColumnDefinition>
@@ -73,13 +74,10 @@
 
         </StackPanel>
 
-        <StackPanel Background="Gray" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2">
-            <Wpf:CartesianChart>
-                <Label>https://lvcharts.net/App/examples/v1/wf/Basic%20Line%20Chart</Label>
-            </Wpf:CartesianChart>
-        </StackPanel>
-        
-
+        <DockPanel Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2">
+            <Canvas x:Name="Canvas1" Background="White">
+            </Canvas>
+        </DockPanel>
         <StackPanel Orientation="Vertical" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" x:Name="Footer">
             <StackPanel Orientation="Horizontal">
                 <Label>Рассчитать значение при x=</Label>
@@ -94,9 +92,9 @@
             </StackPanel>
             <StackPanel>
                 <Label>*- используйте разделительный знак ",".</Label>
+                <Label Name="test1"></Label>
+                <Label Name="test2"></Label>
             </StackPanel>
         </StackPanel>
-
-        
     </Grid>
 </Window>
