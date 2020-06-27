@@ -6,14 +6,13 @@ namespace Modeling.Data
     {
         public double X { get; set; }
         public double Y { get; set; }
-        public double df { get; set; }
-        public double ddf { get; set; }
+
         public Point(double x)
         {
             X = x;
             Y = Fx(x);
         }
-        public Point(double x,double y)
+        public Point(double x, double y)
         {
             X = x;
             Y = y;
@@ -21,7 +20,7 @@ namespace Modeling.Data
 
         public double Fx(double x)
         {
-            return Math.Sin(x);
+            return Math.Sin(x/3);
         }
     }
 }

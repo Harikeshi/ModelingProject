@@ -5,3 +5,10 @@ C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\obj\Debug\Modeling
 C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.csproj.CoreCompileInputs.cache
 C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.exe
 C:\Users\Harikeshi\source\repos\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.pdb
+C:\Users\sshch\OneDrive\VisualStudio\ModelingProject\Modeling.Data\bin\Debug\Modeling.Data.exe.config
+C:\Users\sshch\OneDrive\VisualStudio\ModelingProject\Modeling.Data\bin\Debug\Modeling.Data.exe
+C:\Users\sshch\OneDrive\VisualStudio\ModelingProject\Modeling.Data\bin\Debug\Modeling.Data.pdb
+C:\Users\sshch\OneDrive\VisualStudio\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.csprojAssemblyReference.cache
+C:\Users\sshch\OneDrive\VisualStudio\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.csproj.CoreCompileInputs.cache
+C:\Users\sshch\OneDrive\VisualStudio\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.exe
+C:\Users\sshch\OneDrive\VisualStudio\ModelingProject\Modeling.Data\obj\Debug\Modeling.Data.pdb

@@ -47,53 +47,75 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel x:Name="Navigation" Orientation="Vertical" Grid.Row="5" Grid.Column="1" Grid.RowSpan="4">
-            
-            <DataGrid x:Name="TableFunc" AutoGenerateColumns="False" HorizontalGridLinesBrush="DarkGray" 
+
+        <StackPanel x:Name="Navigation" ScrollViewer.VerticalScrollBarVisibility="Hidden" Grid.Row="5" Grid.Column="1" Grid.RowSpan="4">
+
+            <Label HorizontalAlignment="Center" >Таблица Значений</Label>
+            <ScrollViewer Grid.Row="5" Grid.Column="1" Grid.RowSpan="4" Width="Auto">
+                <DataGrid x:Name="TableFunc" MaxHeight="800" AutoGenerateColumns="False" HorizontalGridLinesBrush="DarkGray" 
                       RowBackground="LightGray" AlternatingRowBackground="White" Margin="5">
-                
-
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Значение X" Width="80" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox  Text="{Binding Path=ValueX}" ></TextBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Значение Y" Width="100" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox  Text="{Binding Path=ValueY}" ></TextBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <Button x:Name="CalculateTable" HorizontalAlignment="Left" Width="Auto" Margin="5 0 0 0" Click="CalculateTable_Click">Рассчитать</Button>
-
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Значение X" Width="80" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox  Text="{Binding Path=ValueX}" ></TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Значение Y" Width="100" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox  Text="{Binding Path=ValueY}" ></TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
         </StackPanel>
-
         <DockPanel Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2">
             <Canvas x:Name="Canvas1" Background="White">
             </Canvas>
         </DockPanel>
         <StackPanel Orientation="Vertical" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" x:Name="Footer">
             <StackPanel Orientation="Horizontal">
+                <CheckBox x:Name="FuncCheck" Margin="7,5,0,0"></CheckBox>
+                <CheckBox x:Name="ClampedCheck" Margin="20,5,0,0"></CheckBox>
+                <CheckBox x:Name="NaturalCheck" Margin="30,5,0,0"></CheckBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Foreground="Red">func</Label>
+                <Label Foreground="Green">clamp</Label>
+                <Label Foreground="Blue">natural</Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>Данные для расчета: интервал от</Label>
+                <TextBox x:Name="StartBox" Text="-1" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <Label>до</Label>
+                <TextBox x:Name="EndBox" Text="15" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <Label>с шагом</Label>
+                <TextBox x:Name="StepBox" Text="1" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <Label>значения Alpha</Label>
+                <TextBox x:Name="AlphaBox" Text="0" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <Label>значения Beta</Label>
+                <TextBox x:Name="BetaBox" Text="0" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <Button x:Name="FirstCalculate" Width="70" Margin="5" Content="Рассчитать" Click="FirstCalculate_Click"></Button>
+
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <Label>Рассчитать значение при x=</Label>
-                <TextBox x:Name="valueX" Text="0" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <TextBox x:Name="XBox" Text="1" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
                 <Button x:Name="CalculateY" Width="70" Margin="5" Content="Рассчитать" Click="CalculateY_Click"></Button>
-                <Label>Значение функции:</Label>
-                <Label x:Name="valueY" Width="Auto" HorizontalAlignment="Left" FontWeight="Bold">NULL</Label>
-            </StackPanel >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 100 0">
-                <Label >Значение функции для sin(x):</Label>
-                <Label x:Name="SinX" FontWeight="Bold">NULL</Label>
+                <Label>Расчетное значение функции:</Label>
+                <Label x:Name="YBox" Width="Auto" HorizontalAlignment="Left" FontWeight="Bold">NULL</Label>
+                <Label >Значение функции для
+                </Label>
+                <Label FontSize="14" FontWeight="Bold">sin(x/3)</Label>
+                <Label>:</Label>
+                <Label x:Name="SinBox" FontWeight="Bold">NULL</Label>
             </StackPanel>
             <StackPanel>
-                <Label>*- используйте разделительный знак ",".</Label>
-                <Label Name="test1"></Label>
-                <Label Name="test2"></Label>
+                <Label>Замечание: Используйте разделительный знак - запятая.</Label>
             </StackPanel>
         </StackPanel>
     </Grid>

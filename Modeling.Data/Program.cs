@@ -22,17 +22,16 @@ namespace Modeling.Data
 
             GridFunction func = new GridFunction();
 
-            Spline spline = new Spline(func.Data);
+            GraphicSpline sp = new GraphicSpline(func.Data,1,1);
 
-            spline.GenerateSplines();
+            sp.BuildSubIntervals();
+            
 
-            Console.WriteLine(new string('-', 20));
-
-            double x = 12;
-            Console.WriteLine($"Синус({x}) = {Math.Sin(x)}");
-            Console.WriteLine($"Инерполяция: {spline.GetFunctionValue(x)}");
-            Console.WriteLine(new string('-', 20));
-
+            sp.ShowMatrixNatural();
+            sp.ShowMatrixClamped();
+         
+            Console.WriteLine(sp.GetFunction(12,'n'));
+            Console.WriteLine(Math.Sin(12));
         }
     }
 }

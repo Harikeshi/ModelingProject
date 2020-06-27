@@ -43,12 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GridFunction.cs" />
+    <Compile Include="GraphicSpline.cs" />
+    <Compile Include="old\GridFunction.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spline.cs" />
-    <Compile Include="SplineSubInterval.cs" />
+    <Compile Include="SplineInterval.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
