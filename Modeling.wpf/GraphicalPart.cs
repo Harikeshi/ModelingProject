@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.DataVisualization.Charting;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -31,20 +32,18 @@ namespace Modeling.wpf
 
         private double mulY;
         private double mulX;
+        private int n;// Количество участков сетки
 
         public List<Line> Lines { get; set; }//Линии сетки
         public List<Label> Labels { get; set; }//Значения на графике
         private GraphicSpline spline;
-
-        private int n;// Количество участков сетки
-
 
         public GraphicalPart()
         {
 
         }
         public GraphicalPart(double left1 = 60, double left2 = 20,
-            double bottom1 = 60, double bottom2 = 20, double top = 30, double right = 30,
+            double bottom1 = 60, double bottom2 = 20, double top = 50, double right = 30,
             double actualH = 719.55, double actualW = 1435.5, int n = 20)
         {
             Left1 = left1;
@@ -61,28 +60,31 @@ namespace Modeling.wpf
         public void CreateSpline(Data.Point[] points, double alpha, double beta)
         {
             spline = new GraphicSpline(points, alpha, beta);
-
-            spline.BuildSubIntervals();
+            
         }
+
         public double GetFunctionValue(double x, char ch)
         {
             return spline.GetFunction(x, ch);
         }
+
         public void BuildCoordinateGrid(Data.Point[] points)
         {
             this.Lines = new List<Line>();
             this.Labels = new List<Label>();
             //Рассчитываем для всего графика
 
-            //Находим минимумы и максимумы функции вынести в функцию
-            minY = MinArray(points, 'y');
-            maxY = MaxArray(points, 'y');
-            minX = MinArray(points, 'x');
-            maxX = MaxArray(points, 'x');
+            // TODO Находим минимумы и максимумы массива, надо искать минимум и максимум самой функции
+            minY = spline.MinArray(points, 'y');
+            maxY = spline.MaxArray(points, 'y');
+            minX = spline.MinArray(points, 'x');
+            maxX = spline.MaxArray(points, 'x');
+
+            maxY += (Math.Abs(maxY) / 8);
+            minY -= (Math.Abs(minY) / 8);
 
             double lengthY = 0; // Разность между минимальным и максимальном по оси Y в значениях
             double lengthX = 0; // Разность между минимальным и максимальном по оси X в значениях
-
 
             #region Находим длину рабочей поверхности по X и Y в значениях
             if ((minY < 0 && maxY < 0) || (minY > 0 && maxY > 0) || (maxY == 0) || (minY == 0))
@@ -187,14 +189,14 @@ namespace Modeling.wpf
             #endregion
         }
 
-        public List<Line> CreateGraphofSplines(Data.Point[] points, Brush brush,char ch)
+        public List<Line> CreateGraphofSplines(Data.Point[] points, Brush brush, char ch)
         {
 
             double exchangeY = 0; // Расчетные значения точки по оси Y
             double exchangeX = 0; // Расчетные значения точки по оси X
 
             //Берем отрезок делим его на 5 частей берем 4 части,1 и 5 оставляем           
-            int n = 20;
+            //int n = 10;
 
             int interval = (points.Length - 1) * (n - 1);
             double step = (points[points.Length - 1].X - points[0].X) / (interval);
@@ -208,31 +210,52 @@ namespace Modeling.wpf
             double y = 0;
             List<Line> GraphLines = new List<Line>();
 
-            //points
-            for (int i = 0; i < interval - 1; i++)
+            if (ch == 'f')
             {
+                for (int i = 0; i < interval - 1; i++)
+                {
+                    x += step;
+                    y = Math.Sin(x / 3);
 
-                x += step;
-                y = GetFunctionValue(x,ch);
+                    ExchangePoint(x, y, ref exchangeY, ref exchangeX);
+                    GraphLines.Add(new Line { X1 = tempExchangeX * mulX + Left1 + Left2, X2 = exchangeX * mulX + Left1 + Left2, Y1 = tempExchangeY * mulY + Top, Y2 = exchangeY * mulY + Top, Stroke = brush });
+                    tempExchangeX = exchangeX;
+                    tempExchangeY = exchangeY;
+                }
+
+                x = points[points.Length - 1].X;
+                y = Math.Sin(x / 3);
 
                 ExchangePoint(x, y, ref exchangeY, ref exchangeX);
                 GraphLines.Add(new Line { X1 = tempExchangeX * mulX + Left1 + Left2, X2 = exchangeX * mulX + Left1 + Left2, Y1 = tempExchangeY * mulY + Top, Y2 = exchangeY * mulY + Top, Stroke = brush });
+                return GraphLines;
+            }
+
+            //points
+            for (int i = 0; i < interval - 1; i++)
+            {
+                x += step;
+                y = GetFunctionValue(x, ch);
+
+                ExchangePoint(x, y, ref exchangeY, ref exchangeX);
+
+                GraphLines.Add(new Line { X1 = tempExchangeX * mulX + Left1 + Left2, X2 = exchangeX * mulX + Left1 + Left2, Y1 = tempExchangeY * mulY + Top, Y2 = exchangeY * mulY + Top, Stroke = brush });
+
                 tempExchangeX = exchangeX;
                 tempExchangeY = exchangeY;
             }
 
             x = points[points.Length - 1].X;
-            y = GetFunctionValue(x,ch);
+            y = GetFunctionValue(x, ch);
+
 
             ExchangePoint(x, y, ref exchangeY, ref exchangeX);
+
             GraphLines.Add(new Line { X1 = tempExchangeX * mulX + Left1 + Left2, X2 = exchangeX * mulX + Left1 + Left2, Y1 = tempExchangeY * mulY + Top, Y2 = exchangeY * mulY + Top, Stroke = brush });
 
             return GraphLines;
         }
-        private System.Windows.Point CreatePoint(double exchangeX, double exchangeY)
-        {
-            return new System.Windows.Point(exchangeX * mulX + Left1 + Left2, exchangeY * mulY + Top);
-        }
+
         public List<Ellipse> CreateGraphofPoints(Data.Point[] points, Brush brush)
         {
             this.BuildCoordinateGrid(points);
@@ -257,10 +280,14 @@ namespace Modeling.wpf
             }
             return Ellipses;
         }
+
         private void ExchangePoint(double x, double y, ref double exchangeY, ref double exchangeX)
         {
+
             if ((maxY >= 0 && y >= 0) || (maxY <= 0 && y <= 0))
             {
+
+                //
                 exchangeY = Math.Abs(maxY - y);//модуль не нужен
             }
             if (maxY >= 0 && y <= 0)
@@ -277,64 +304,23 @@ namespace Modeling.wpf
                 exchangeX = Math.Abs(x + Math.Abs(minX));
             }
         }
-        private double MaxArray(Data.Point[] points, char ch)
-        {
-            double result = 0;
-            //Минимум в зависимости ch это x или y
-            if (ch == 'x')
-            {
-                result = points[0].X;
-                for (int i = 1; i < points.Length; i++)
-                {
-                    if (result < points[i].X)
-                    {
-                        result = points[i].X;
-                    }
-                }
-            }
-            if (ch == 'y')
-            {
-                result = points[0].Y;
-                for (int i = 1; i < points.Length; i++)
-                {
-                    if (result < points[i].Y)
-                    {
-                        result = points[i].Y;
-                    }
-                }
-            }
-            return result;
-        }
-        //Минимальное значение в массиве
-        private double MinArray(Data.Point[] points, char ch)
-        {
-            double result = 0;
 
-            //Максимум в зависимости ch это x или y
-            if (ch == 'x')
-            {
-                result = points[0].X;
-                for (int i = 1; i < points.Length; i++)
-                {
-                    if (result > points[i].X)
-                    {
-                        result = points[i].X;
-                    }
-                }
-            }
-            if (ch == 'y')
-            {
-                result = points[0].Y;
-                for (int i = 1; i < points.Length; i++)
-                {
-                    if (result > points[i].Y)
-                    {
-                        result = points[i].Y;
-                    }
-                }
-            }
-            return result;
-        }
+        public Data.Point[] CreateArray(double start, double end, double step)
+        {
+            List<Data.Point> p = new List<Data.Point>();
 
+            double temp = start;
+
+            double length = end - start;
+            int n = Convert.ToInt32(length / step);
+            for (int i = 0; i < n; i++)
+            {
+                p.Add(new Data.Point(temp));
+                temp += step;
+            }
+            p.Add(new Data.Point(end));
+
+            return p.ToArray();
+        }
     }
 }

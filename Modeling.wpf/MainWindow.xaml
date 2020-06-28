@@ -11,10 +11,13 @@
     <Grid x:Name="grid1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="188*"></ColumnDefinition>
             <ColumnDefinition Width="2"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="210*"></ColumnDefinition>
+            <ColumnDefinition Width="24*"/>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="189*"></ColumnDefinition>
             <ColumnDefinition Width="2"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -28,18 +31,18 @@
             <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="2"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Background="Gray"></StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="9" Background="Gray"></StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="6" Grid.RowSpan="9" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="8" Grid.RowSpan="9" Background="Gray"></StackPanel>
         <StackPanel Grid.Row="5" Grid.Column="2" Grid.RowSpan="3" Background="Gray"></StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Background="Gray"></StackPanel>
-        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Background="Gray"></StackPanel>
-        <StackPanel Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2" Background="Gray"></StackPanel>
-        <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="5" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="8" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="5" Background="Gray"></StackPanel>
+        <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="8" Background="Gray"></StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" x:Name="Command"></StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8" x:Name="Command"></StackPanel>
 
-        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" x:Name="Title1">
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" x:Name="Title1">
             <Label HorizontalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Verdana">Курсовой проект по  математическому моделированию</Label>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label FontSize="12" FontFamily="Verdana">тема:</Label>
@@ -73,15 +76,16 @@
                 </DataGrid>
             </ScrollViewer>
         </StackPanel>
-        <DockPanel Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2">
+        <DockPanel Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="5">
             <Canvas x:Name="Canvas1" Background="White">
             </Canvas>
         </DockPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" x:Name="Footer">
+        <StackPanel Orientation="Vertical" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="5" x:Name="Footer">
             <StackPanel Orientation="Horizontal">
                 <CheckBox x:Name="FuncCheck" Margin="7,5,0,0"></CheckBox>
                 <CheckBox x:Name="ClampedCheck" Margin="20,5,0,0"></CheckBox>
                 <CheckBox x:Name="NaturalCheck" Margin="30,5,0,0"></CheckBox>
+                <Label>Выбрать нужные графики и нажать Рассчитать</Label>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Foreground="Red">func</Label>
@@ -90,29 +94,39 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label>Данные для расчета: интервал от</Label>
-                <TextBox x:Name="StartBox" Text="-1" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <TextBox x:Name="StartBox" Text="-6" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
                 <Label>до</Label>
                 <TextBox x:Name="EndBox" Text="15" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
                 <Label>с шагом</Label>
-                <TextBox x:Name="StepBox" Text="1" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
-                <Label>значения Alpha</Label>
-                <TextBox x:Name="AlphaBox" Text="0" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
-                <Label>значения Beta</Label>
-                <TextBox x:Name="BetaBox" Text="0" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <TextBox x:Name="StepBox" Text="3" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <Label>значения производных в 0</Label>
+                <TextBox x:Name="AlphaBox" Text="0,2" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
+                <Label>и в n-1</Label>
+                <TextBox x:Name="BetaBox" Text="0,1" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
                 <Button x:Name="FirstCalculate" Width="70" Margin="5" Content="Рассчитать" Click="FirstCalculate_Click"></Button>
 
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label>Рассчитать значение при x=</Label>
                 <TextBox x:Name="XBox" Text="1" Height="Auto" Width="50" VerticalAlignment="Top" Margin="5"></TextBox>
-                <Button x:Name="CalculateY" Width="70" Margin="5" Content="Рассчитать" Click="CalculateY_Click"></Button>
-                <Label>Расчетное значение функции:</Label>
-                <Label x:Name="YBox" Width="Auto" HorizontalAlignment="Left" FontWeight="Bold">NULL</Label>
+                <Button x:Name="CalculateY" Width="Auto" Margin="5" Content="Рассчитать" Click="CalculateY_Click"></Button>
                 <Label >Значение функции для
                 </Label>
                 <Label FontSize="14" FontWeight="Bold">sin(x/3)</Label>
                 <Label>:</Label>
                 <Label x:Name="SinBox" FontWeight="Bold">NULL</Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>Расчетное значение функции</Label>
+                <Label FontSize="14" FontWeight="Bold">Natural</Label>
+                <Label>:</Label>
+                <Label x:Name="YBoxNatural" Width="Auto" HorizontalAlignment="Left" FontWeight="Bold">NULL</Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>Расчетное значение функции</Label>
+                <Label FontSize="14" FontWeight="Bold">Clamped</Label>
+                <Label>:</Label>
+                <Label x:Name="YBoxClamped" Width="Auto" HorizontalAlignment="Left" FontWeight="Bold">NULL</Label>
             </StackPanel>
             <StackPanel>
                 <Label>Замечание: Используйте разделительный знак - запятая.</Label>

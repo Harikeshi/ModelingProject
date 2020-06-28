@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modeling.wpf
 {
-    class TablePoint
+    public class TablePoint
     {
         public double ValueX { get; set; }
         public double ValueY { get; set; }
